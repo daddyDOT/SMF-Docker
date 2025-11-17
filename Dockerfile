@@ -2,7 +2,6 @@ ARG PHP_VERSION=8.0
 FROM phpdockerio/php:${PHP_VERSION}-fpm
 
 ARG PHP_VERSION
-ARG SMF_VERSION=2.1.5
 
 RUN apt-get update && \
     apt-get -y --no-install-recommends install \
@@ -16,8 +15,7 @@ RUN apt-get update && \
 WORKDIR /app
 
 RUN set -eux; \
-    SMF_VERSION_DASH=$(echo "$SMF_VERSION" | tr '.' '-'); \
-    curl -s -k -o install.zip "https://download.simplemachines.org/index.php/smf_${SMF_VERSION_DASH}_install.zip"; \
+    curl -L -o install.zip "https://download.simplemachines.org/index.php/smf_2-1-6_install.zip"; \
     unzip install.zip; \
     rm install.zip; \
     chown -R www-data:www-data .; \
