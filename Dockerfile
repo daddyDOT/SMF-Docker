@@ -30,7 +30,7 @@ RUN set -eux; \
     chown -R www-data:www-data .; \
     chmod -R 777 .
 
-COPY _docker/nginx/nginx.conf /etc/nginx/conf.d/default.conf
+COPY _docker/nginx/nginx.conf /etc/nginx/nginx.conf
 
 RUN sed -i "s|^listen = .*|listen = 127.0.0.1:9000|" /etc/php/${PHP_VERSION}/fpm/pool.d/www.conf
 
