@@ -2,15 +2,24 @@ ARG PHP_VERSION=8.0
 FROM phpdockerio/php:${PHP_VERSION}-fpm
 
 ARG PHP_VERSION
+ENV PHP_VERSION=${PHP_VERSION}
 
 RUN apt-get update && \
     apt-get -y --no-install-recommends install \
         nginx \
         curl \
         unzip \
-        ca-certificates && \
+        ca-certificates \
+        openssl && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
+
+RUN mkdir -p /etc/nginx/ssl && \
+    openssl req -x509 -nodes -days 365 \
+      -subj "/CN=localhost" \
+      -newkey rsa:2048 \
+      -keyout /etc/nginx/ssl/nginx.key \
+      -out /etc/nginx/ssl/nginx.crt
 
 WORKDIR /app
 
